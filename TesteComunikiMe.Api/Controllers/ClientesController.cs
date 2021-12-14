@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TesteComunikiMe.Application.Core.Interfaces.Services;
 using TesteComunikiMe.Application.Dtos;
-using TesteComunikiMe.Application.Services;
-using TesteComunikiMe.Utilities.Conts;
 
 namespace TesteComunikiMe.Api.Controllers
 {
@@ -14,36 +13,35 @@ namespace TesteComunikiMe.Api.Controllers
     {
         private readonly IAppServiceCliente _appServiceCliente;
 
-        public ClientesController(AppServiceCliente appServiceCliente)
+        public ClientesController(IAppServiceCliente appServiceCliente)
         {
             _appServiceCliente = appServiceCliente;
         }
 
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public ActionResult<IEnumerable<ClienteDto>> Get()
         {
             return Ok(_appServiceCliente.Get());
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        public ActionResult<ClienteDto> Get(int id)
         {
             return Ok(_appServiceCliente.Get(id));
         }
 
         // POST api/values
         [HttpPost]
-        public ActionResult Post([FromBody] ClienteDto clienteDto)
+        public async Task<IActionResult> Post([FromBody] ClienteDto clienteDto)
         {
             try
             {
                 if (clienteDto == null)
                     return NotFound();
 
-                _appServiceCliente.Add(clienteDto);
-                return Ok(Mensagens.RegistroCadatrado);
+                return Ok(await _appServiceCliente.Add(clienteDto));
             }
             catch (Exception ex)
             {
@@ -53,15 +51,14 @@ namespace TesteComunikiMe.Api.Controllers
 
         // PUT api/values/5
         [HttpPut]
-        public ActionResult Put([FromBody] ClienteDto clienteDTO)
+        public async Task<ActionResult> Put([FromBody] ClienteDto clienteDTO)
         {
             try
             {
                 if (clienteDTO == null)
                     return NotFound();
 
-                _appServiceCliente.Update(clienteDTO);
-                return Ok(Mensagens.RegistroAtualizado);
+                return Ok(await _appServiceCliente.Update(clienteDTO));
             }
             catch (Exception)
             {
@@ -71,12 +68,11 @@ namespace TesteComunikiMe.Api.Controllers
 
         // DELETE api/values/5
         [HttpDelete()]
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
             try
             {
-                _appServiceCliente.Remove(id);
-                return Ok(Mensagens.RegistroRemovido);
+                return Ok(await _appServiceCliente.Remove(id));
             }
             catch (Exception ex)
             {

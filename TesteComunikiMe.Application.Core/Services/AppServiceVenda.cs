@@ -28,9 +28,9 @@ namespace TesteComunikiMe.Application.Services
             return _mapVenda.MapListDto(_serviceVenda.Get());
         }
 
-        public async Task<VendaDto> Get(int id)
+        public VendaDto Get(int id)
         {
-            return _mapVenda.MapEntityToDto(await _serviceVenda.Get(id));
+            return _mapVenda.MapEntityToDto(_serviceVenda.Get(id));
         }
 
         public async Task<VendaDto> Remove(int id)

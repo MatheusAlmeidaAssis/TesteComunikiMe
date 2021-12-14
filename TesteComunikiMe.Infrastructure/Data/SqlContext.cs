@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using TesteComunikiMe.Domain.Entities;
 
 namespace TesteComunikiMe.Infrastructure.Data
@@ -20,7 +22,7 @@ namespace TesteComunikiMe.Infrastructure.Data
         public DbSet<Venda> Vendas { get; set; }
         public DbSet<VendaDetalhe> VendaDetalhes { get; set; }
 
-        public override int SaveChanges()
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             var entrys = ChangeTracker.Entries();
             foreach (var entry in entrys)
@@ -37,13 +39,13 @@ namespace TesteComunikiMe.Infrastructure.Data
                         break;
 
                     case EntityState.Modified:
-                        if (entry.Property("DataExclusao").CurrentValue != null)
+                        if (entry.Property("DataExclusao").CurrentValue == null)
                             entry.Property("DataAlteracao").CurrentValue = DateTime.Now;
                         entry.Property("DataCadastro").IsModified = false;
                         break;
                 }
             }
-            return base.SaveChanges();
+            return base.SaveChangesAsync();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

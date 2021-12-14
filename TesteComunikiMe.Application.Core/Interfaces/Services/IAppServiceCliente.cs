@@ -14,6 +14,6 @@ namespace TesteComunikiMe.Application.Core.Interfaces.Services
 
         IEnumerable<ClienteDto> Get();
 
-        Task<ClienteDto> Get(int id);
+        ClienteDto Get(int id);
     }
 }

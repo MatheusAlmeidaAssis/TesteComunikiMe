@@ -1,0 +1,93 @@
+﻿@using TesteComunikiMe.Application.Dtos
+@model TesteComunikiMe.Application.Dtos.VendaDto
+
+@{
+    ViewData["Title"] = "Adicionar Venda";
+}
+<script>
+    $(function () {
+        $('name="AdicionarProduto"').click(function () {
+
+        });
+    });
+</script>
+<h1>Adicionar Venda</h1>
+
+<h4>Venda</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Adicionar">
+            <div asp-validation-summary="ModelOnly" class="text-danger" />
+            <div class="form-group">
+                <label asp-for="Cliente" class="control-label" />
+                <select asp-for="Cliente">
+                    @foreach (var item in ViewBag.Clientes)
+                    {
+                        <option value="@item">@($"{item.Nome} {item.Sobrenome}")</option>
+                    }
+                </select>
+                <span asp-validation-for="Cliente" class="text-danger" />
+            </div>
+            <div class="form-group">
+                <h6>@Html.DisplayNameFor(p => p.VendaDetalhes)</h6>
+                <hr />
+                @foreach (var item in ViewBag.Produtos as List<ProdutoDto>)
+                {
+                    <div class="form-group">
+                        <label class="control-label">@item.Descricao</label>
+                        <label class="control-label">Quantidade</label>
+                        <input type="number" name="QuantidadeProduto" class="form-control" />
+                        <input name="AdicionarProduto" data-produto="@item" type="button" value="Adicionar" class="btn btn-primary" />
+                    </div>
+                }
+            </div>
+            <h6>Carrinho de Compras</h6>
+            <hr />
+            <div class="form-group">
+                <table id="@Html.IdFor(p => p.VendaDetalhes)" name="@Html.NameFor(p => p.VendaDetalhes)" class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Descrição
+                            </th>
+                            <th>
+                                Quantidade
+                            </th>
+                            <th>
+                                Valor Total
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.VendaDetalhes)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Produto.Descricao)
+                                </td>
+                                <th>
+                                    @Html.DisplayFor(modelItem => item.Quantidade)
+                                </th>
+                                <th>
+                                    @Html.DisplayFor(modelItem => item.ValorTotal)
+                                </th>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Salvar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Voltar</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

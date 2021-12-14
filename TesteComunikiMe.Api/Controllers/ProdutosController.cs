@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TesteComunikiMe.Application.Core.Interfaces.Services;
 using TesteComunikiMe.Application.Dtos;
-using TesteComunikiMe.Utilities.Conts;
 
 namespace TesteComunikiMe.Api.Controllers
 {
@@ -20,29 +20,28 @@ namespace TesteComunikiMe.Api.Controllers
 
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public ActionResult<IEnumerable<ProdutoDto>> Get()
         {
             return Ok(_appServiceProduto.Get());
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        public ActionResult<ProdutoDto> Get(int id)
         {
             return Ok(_appServiceProduto.Get(id));
         }
 
         // POST api/values
         [HttpPost]
-        public ActionResult Post([FromBody] ProdutoDto produtoDto)
+        public async Task<IActionResult> Post([FromBody] ProdutoDto produtoDto)
         {
             try
             {
                 if (produtoDto == null)
                     return NotFound();
 
-                _appServiceProduto.Add(produtoDto);
-                return Ok(Mensagens.RegistroCadatrado);
+                return Ok(await _appServiceProduto.Add(produtoDto));
             }
             catch (Exception ex)
             {
@@ -52,15 +51,14 @@ namespace TesteComunikiMe.Api.Controllers
 
         // PUT api/values/5
         [HttpPut]
-        public ActionResult Put([FromBody] ProdutoDto produtoDTO)
+        public async Task<IActionResult> Put([FromBody] ProdutoDto produtoDTO)
         {
             try
             {
                 if (produtoDTO == null)
                     return NotFound();
 
-                _appServiceProduto.Update(produtoDTO);
-                return Ok(Mensagens.RegistroAtualizado);
+                return Ok(await _appServiceProduto.Update(produtoDTO));
             }
             catch (Exception)
             {
@@ -70,12 +68,11 @@ namespace TesteComunikiMe.Api.Controllers
 
         // DELETE api/values/5
         [HttpDelete()]
-        public ActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {
-                _appServiceProduto.Remove(id);
-                return Ok(Mensagens.RegistroRemovido);
+                return Ok(await _appServiceProduto.Remove(id));
             }
             catch (Exception ex)
             {

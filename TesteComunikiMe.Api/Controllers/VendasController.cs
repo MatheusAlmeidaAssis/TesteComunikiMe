@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TesteComunikiMe.Application.Core.Interfaces.Services;
 using TesteComunikiMe.Application.Dtos;
-using TesteComunikiMe.Utilities.Conts;
 
 namespace TesteComunikiMe.Api.Controllers
 {
@@ -20,29 +20,28 @@ namespace TesteComunikiMe.Api.Controllers
 
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public ActionResult<IEnumerable<VendaDto>> Get()
         {
             return Ok(_appServiceVenda.Get());
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        public ActionResult<VendaDto> Get(int id)
         {
             return Ok(_appServiceVenda.Get(id));
         }
 
         // POST api/values
         [HttpPost]
-        public ActionResult Post([FromBody] VendaDto vendaDto)
+        public async Task<IActionResult> Post([FromBody] VendaDto vendaDto)
         {
             try
             {
                 if (vendaDto == null)
                     return NotFound();
 
-                _appServiceVenda.Add(vendaDto);
-                return Ok(Mensagens.RegistroCadatrado);
+                return Ok(await _appServiceVenda.Add(vendaDto));
             }
             catch (Exception ex)
             {
@@ -52,15 +51,14 @@ namespace TesteComunikiMe.Api.Controllers
 
         // PUT api/values/5
         [HttpPut]
-        public ActionResult Put([FromBody] VendaDto vendaDto)
+        public async Task<IActionResult> Put([FromBody] VendaDto vendaDto)
         {
             try
             {
                 if (vendaDto == null)
                     return NotFound();
 
-                _appServiceVenda.Update(vendaDto);
-                return Ok(Mensagens.RegistroAtualizado);
+                return Ok(await _appServiceVenda.Update(vendaDto));
             }
             catch (Exception)
             {
@@ -70,12 +68,11 @@ namespace TesteComunikiMe.Api.Controllers
 
         // DELETE api/values/5
         [HttpDelete()]
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
             try
             {
-                _appServiceVenda.Remove(id);
-                return Ok(Mensagens.RegistroRemovido);
+                return Ok(await _appServiceVenda.Remove(id));
             }
             catch (Exception ex)
             {

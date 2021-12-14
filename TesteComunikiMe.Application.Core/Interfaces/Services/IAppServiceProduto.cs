@@ -14,6 +14,6 @@ namespace TesteComunikiMe.Application.Core.Interfaces.Services
 
         IEnumerable<ProdutoDto> Get();
 
-        Task<ProdutoDto> Get(int id);
+        ProdutoDto Get(int id);
     }
 }

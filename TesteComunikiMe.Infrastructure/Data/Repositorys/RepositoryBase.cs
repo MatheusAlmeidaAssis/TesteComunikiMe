@@ -26,7 +26,7 @@ namespace TesteComunikiMe.Infrastructure.Data.Repositorys
             _sqlContext = sqlContext;
         }
 
-        public async Task<Entity> Add(Entity entity)
+        public virtual async Task<Entity> Add(Entity entity)
         {
             try
             {
@@ -40,21 +40,21 @@ namespace TesteComunikiMe.Infrastructure.Data.Repositorys
             }
         }
 
-        public IEnumerable<Entity> Get()
+        public virtual IEnumerable<Entity> Get()
         {
             return Entities;
         }
 
-        public async Task<Entity> Get(int id)
+        public virtual Entity Get(int id)
         {
-            return await _sqlContext.Set<Entity>().FindAsync(id);
+            return _sqlContext.Set<Entity>().FirstOrDefault(p => p.Id == id);
         }
 
-        public async Task<Entity> Remove(int id)
+        public virtual async Task<Entity> Remove(int id)
         {
             try
             {
-                var entity = await Get(id);
+                var entity = Get(id);
                 entity.DataExclusao = DateTime.Now;
                 _sqlContext.Set<Entity>().Update(entity);
                 await _sqlContext.SaveChangesAsync();
@@ -66,7 +66,7 @@ namespace TesteComunikiMe.Infrastructure.Data.Repositorys
             }
         }
 
-        public async Task<Entity> Update(Entity entity)
+        public virtual async Task<Entity> Update(Entity entity)
         {
             try
             {

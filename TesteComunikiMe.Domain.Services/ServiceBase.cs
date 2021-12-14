@@ -25,9 +25,9 @@ namespace TesteComunikiMe.Domain.Services
             return _repository.Get();
         }
 
-        public async Task<Entity> Get(int id)
+        public Entity Get(int id)
         {
-            return await _repository.Get(id);
+            return _repository.Get(id);
         }
 
         public async Task<Entity> Remove(int id)

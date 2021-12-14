@@ -28,9 +28,9 @@ namespace TesteComunikiMe.Application.Services
             return _mapProduto.MapListDto(_serviceProduto.Get());
         }
 
-        public async Task<ProdutoDto> Get(int id)
+        public ProdutoDto Get(int id)
         {
-            return _mapProduto.MapEntityToDto(await _serviceProduto.Get(id));
+            return _mapProduto.MapEntityToDto(_serviceProduto.Get(id));
         }
 
         public async Task<ProdutoDto> Remove(int id)

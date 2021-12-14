@@ -14,6 +14,6 @@ namespace TesteComunikiMe.Domain.Core.Interfaces.Services
 
         IEnumerable<Entity> Get();
 
-        Task<Entity> Get(int id);
+        Entity Get(int id);
     }
 }

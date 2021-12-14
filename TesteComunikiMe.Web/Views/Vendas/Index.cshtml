@@ -1,0 +1,50 @@
+﻿@using TesteComunikiMe.Utilities.Consts
+@model IEnumerable<TesteComunikiMe.Application.Dtos.VendaDto>
+
+@{
+    ViewData["Title"] = "Vendas";
+}
+
+<h1>Vendas</h1>
+
+<p>
+    <a asp-action="Adicionar">Adicionar</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cliente)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ValorTotal)
+            </th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <th>
+                    @Html.DisplayFor(modelItem => item.Cliente.Nome) @Html.DisplayFor(modelItem => item.Cliente.Sobrenome)
+                </th>
+                <th>
+                    @Html.DisplayFor(modelItem => item.ValorTotal)
+                </th>
+                <td>
+                    @Html.ActionLink("Editar", "Editar", new { id = item.Id }) |
+                    @Html.ActionLink("Consultar", "Consultar", new { id = item.Id }) |
+                    @Html.ActionLink("Excluir", "Excluir", new { id = item.Id }, new { onclick = $"return confirm('{Mensagens.ConfirmaExclusao}');" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<center><h6>@($"{Model.Count()} {Mensagens.RegistrosEncontrados}")</h6></center>

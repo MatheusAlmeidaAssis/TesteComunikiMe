@@ -25,9 +25,7 @@ namespace TesteComunikiMe.Infrastructure.CrossCutting.Ioc
             cotainerbuilder.RegisterType<AppServiceVenda>().As<IAppServiceVenda>();
             cotainerbuilder.RegisterType<AppServiceVenda>().As<IAppServiceVenda>();
             cotainerbuilder.RegisterType<ServiceVenda>().As<IServiceVenda>();
-            cotainerbuilder.RegisterType<ServiceVendaDetalhe>().As<IServiceVendaDetalhe>();
             cotainerbuilder.RegisterType<RepositoryVenda>().As<IRepositoryVenda>();
-            cotainerbuilder.RegisterType<RepositoryVendaDetalhe>().As<IRepositoryVendaDetalhe>();
             cotainerbuilder.RegisterType<MapVenda>().As<IMapVenda>();
             cotainerbuilder.RegisterType<MapVendaDetalhe>().As<IMapVendaDetalhe>();
         }
